@@ -1,0 +1,2278 @@
+{
+	"info": {
+		"_postman_id": "511b0e43-a662-488f-a2cd-98f87f902dc7",
+		"name": "jab.net",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AuthController Register",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "12326000-7919-49ad-a452-de83ad85000d",
+						"exec": [
+							"pm.globals.clear()\r",
+							"\r",
+							"function uuidv4() {\r",
+							"  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+							"    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\r",
+							"    return v.toString(16);\r",
+							"  });\r",
+							"}\r",
+							"\r",
+							"let firstName = uuidv4();\r",
+							"let lastName = uuidv4();\r",
+							"let username = uuidv4();\r",
+							"let password = uuidv4();\r",
+							"\r",
+							"pm.globals.set('ADMIN_FIRST_NAME', firstName);\r",
+							"pm.globals.set('ADMIN_LAST_NAME', lastName);\r",
+							"pm.globals.set('ADMIN_USERNAME', username);\r",
+							"pm.globals.set('ADMIN_PASSWORD', password);\r",
+							"var moment = require('moment');\r",
+							"pm.globals.set(\"TIMESTAMP\", moment().format(\"MM/DD/YYYY\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "75bb88c0-c3c3-4935-9fd9-b5a581e4f8de",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"{{ADMIN_FIRST_NAME}}\",\r\n  \"lastName\": \"{{ADMIN_LAST_NAME}}\",\r\n  \"username\": \"{{ADMIN_USERNAME}}\",\r\n  \"password\": \"{{ADMIN_PASSWORD}}\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{URL}}/api/auth/register",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AuthController Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "12326000-7919-49ad-a452-de83ad85000d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "75bb88c0-c3c3-4935-9fd9-b5a581e4f8de",
+						"exec": [
+							"var body = JSON.parse(responseBody);\r",
+							"pm.globals.set('TOKEN', body.token);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"{{ADMIN_USERNAME}}\",\r\n  \"password\": \"{{ADMIN_PASSWORD}}\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{URL}}/api/auth/login",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+		,
+{
+	"name": "CategoryController POST",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"var body = JSON.parse(responseBody);\r",
+					"pm.globals.set('CATEGORY_ID', body.id);\r",
+					"\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"categoryName\": \"{{$guid}}\",\"description\": \"{{$guid}}\",\"photoUrl\": \"{{$guid}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/category",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"category"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "CustomerController POST",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"var body = JSON.parse(responseBody);\r",
+					"pm.globals.set('CUSTOMER_ID', body.id);\r",
+					"\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"customerName\": \"{{$guid}}\",\"contactName\": \"{{$guid}}\",\"contactTitle\": \"{{$guid}}\",\"address\": \"{{$guid}}\",\"city\": \"{{$guid}}\",\"region\": \"{{$guid}}\",\"postalCode\": \"{{$guid}}\",\"country\": \"{{$guid}}\",\"phone\": \"{{$guid}}\",\"fax\": \"{{$guid}}\",\"customerDemographics\": [ {\"DemographicId\": \"{{DEMOGRAPHIC_ID}}\"} ]}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/customer",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"customer"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "DemographicController POST",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"var body = JSON.parse(responseBody);\r",
+					"pm.globals.set('DEMOGRAPHIC_ID', body.id);\r",
+					"\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"demographicName\": \"{{$guid}}\",\"description\": \"{{$guid}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/demographic",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"demographic"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "EmployeeController POST",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"var body = JSON.parse(responseBody);\r",
+					"pm.globals.set('EMPLOYEE_ID', body.id);\r",
+					"\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"employeeName\": \"{{$guid}}\",\"title\": \"{{$guid}}\",\"titleOfCourtesy\": \"{{$guid}}\",\"birthDate\": \"{{TIMESTAMP}}\",\"hireDate\": \"{{TIMESTAMP}}\",\"address\": \"{{$guid}}\",\"city\": \"{{$guid}}\",\"region\": \"{{$guid}}\",\"postalCode\": \"{{$guid}}\",\"country\": \"{{$guid}}\",\"homePhone\": \"{{$guid}}\",\"extension\": \"{{$guid}}\",\"photoUrl\": \"{{$guid}}\",\"notes\": \"{{$guid}}\",\"employeeTerritories\": [ {\"TerritoryId\": \"{{TERRITORY_ID}}\"} ]}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/employee",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"employee"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "OrderController POST",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"var body = JSON.parse(responseBody);\r",
+					"pm.globals.set('ORDER_ID', body.id);\r",
+					"\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"customerId\": \"{{CUSTOMER_ID}}\",\"employeeId\": \"{{EMPLOYEE_ID}}\",\"orderDate\": \"{{TIMESTAMP}}\",\"requiredDate\": \"{{TIMESTAMP}}\",\"shippedDate\": \"{{TIMESTAMP}}\",\"shipperId\": \"{{SHIPPER_ID}}\",\"freight\": \"99\",\"shipName\": \"{{$guid}}\",\"shipAddress\": \"{{$guid}}\",\"shipCity\": \"{{$guid}}\",\"shipRegion\": \"{{$guid}}\",\"shipPostalCode\": \"{{$guid}}\",\"shipCountry\": \"{{$guid}}\",\"orderDetails\": [ {\"DetailId\": \"{{DETAIL_ID}}\"} ]}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/order",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"order"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "ProductController POST",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"var body = JSON.parse(responseBody);\r",
+					"pm.globals.set('PRODUCT_ID', body.id);\r",
+					"\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"productName\": \"{{$guid}}\",\"description\": \"{{$guid}}\",\"supplierId\": \"{{SUPPLIER_ID}}\",\"categoryId\": \"{{CATEGORY_ID}}\",\"quantityPerUnit\": \"{{$guid}}\",\"unitPrice\": \"99.99\",\"unitsInStock\": \"99\",\"reorderLevel\": \"99\",\"discontinued\": \"true\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/product",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"product"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "RegionController POST",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"var body = JSON.parse(responseBody);\r",
+					"pm.globals.set('REGION_ID', body.id);\r",
+					"\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"regionName\": \"{{$guid}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/region",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"region"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "ShipperController POST",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"var body = JSON.parse(responseBody);\r",
+					"pm.globals.set('SHIPPER_ID', body.id);\r",
+					"\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"shipperName\": \"{{$guid}}\",\"phone\": \"{{$guid}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/shipper",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"shipper"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "SupplierController POST",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"var body = JSON.parse(responseBody);\r",
+					"pm.globals.set('SUPPLIER_ID', body.id);\r",
+					"\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"supplierName\": \"{{$guid}}\",\"contactName\": \"{{$guid}}\",\"contactTitle\": \"{{$guid}}\",\"address\": \"{{$guid}}\",\"city\": \"{{$guid}}\",\"region\": \"{{$guid}}\",\"postalCode\": \"{{$guid}}\",\"country\": \"{{$guid}}\",\"phone\": \"{{$guid}}\",\"fax\": \"{{$guid}}\",\"websiteUrl\": \"{{$guid}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/supplier",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"supplier"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "TerritoryController POST",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"var body = JSON.parse(responseBody);\r",
+					"pm.globals.set('TERRITORY_ID', body.id);\r",
+					"\r",
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "POST",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"territoryName\": \"{{$guid}}\",\"description\": \"{{$guid}}\",\"regionId\": \"{{REGION_ID}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/territory",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"territory"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "CategoryController GET",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/category",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"category"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "CustomerController GET",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/customer",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"customer"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "DemographicController GET",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/demographic",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"demographic"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "EmployeeController GET",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/employee",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"employee"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "OrderController GET",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/order",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"order"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "ProductController GET",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/product",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"product"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "RegionController GET",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/region",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"region"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "ShipperController GET",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/shipper",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"shipper"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "SupplierController GET",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/supplier",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"supplier"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "TerritoryController GET",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/territory",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"territory"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "CategoryController  PUT/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "PUT",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"categoryName\": \"{{$guid}}\",\"description\": \"{{$guid}}\",\"photoUrl\": \"{{$guid}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/category/{{CATEGORY_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"category",
+				"{{CATEGORY_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "CustomerController  PUT/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "PUT",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"customerName\": \"{{$guid}}\",\"contactName\": \"{{$guid}}\",\"contactTitle\": \"{{$guid}}\",\"address\": \"{{$guid}}\",\"city\": \"{{$guid}}\",\"region\": \"{{$guid}}\",\"postalCode\": \"{{$guid}}\",\"country\": \"{{$guid}}\",\"phone\": \"{{$guid}}\",\"fax\": \"{{$guid}}\",\"customerDemographics\": [ {\"DemographicId\": \"{{DEMOGRAPHIC_ID}}\"} ]}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/customer/{{CUSTOMER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"customer",
+				"{{CUSTOMER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "DemographicController  PUT/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "PUT",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"demographicName\": \"{{$guid}}\",\"description\": \"{{$guid}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/demographic/{{DEMOGRAPHIC_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"demographic",
+				"{{DEMOGRAPHIC_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "EmployeeController  PUT/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "PUT",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"employeeName\": \"{{$guid}}\",\"title\": \"{{$guid}}\",\"titleOfCourtesy\": \"{{$guid}}\",\"birthDate\": \"{{TIMESTAMP}}\",\"hireDate\": \"{{TIMESTAMP}}\",\"address\": \"{{$guid}}\",\"city\": \"{{$guid}}\",\"region\": \"{{$guid}}\",\"postalCode\": \"{{$guid}}\",\"country\": \"{{$guid}}\",\"homePhone\": \"{{$guid}}\",\"extension\": \"{{$guid}}\",\"photoUrl\": \"{{$guid}}\",\"notes\": \"{{$guid}}\",\"employeeTerritories\": [ {\"TerritoryId\": \"{{TERRITORY_ID}}\"} ]}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/employee/{{EMPLOYEE_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"employee",
+				"{{EMPLOYEE_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "OrderController  PUT/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "PUT",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"customerId\": \"{{CUSTOMER_ID}}\",\"employeeId\": \"{{EMPLOYEE_ID}}\",\"orderDate\": \"{{TIMESTAMP}}\",\"requiredDate\": \"{{TIMESTAMP}}\",\"shippedDate\": \"{{TIMESTAMP}}\",\"shipperId\": \"{{SHIPPER_ID}}\",\"freight\": \"99\",\"shipName\": \"{{$guid}}\",\"shipAddress\": \"{{$guid}}\",\"shipCity\": \"{{$guid}}\",\"shipRegion\": \"{{$guid}}\",\"shipPostalCode\": \"{{$guid}}\",\"shipCountry\": \"{{$guid}}\",\"orderDetails\": [ {\"DetailId\": \"{{DETAIL_ID}}\"} ]}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/order/{{ORDER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"order",
+				"{{ORDER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "ProductController  PUT/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "PUT",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"productName\": \"{{$guid}}\",\"description\": \"{{$guid}}\",\"supplierId\": \"{{SUPPLIER_ID}}\",\"categoryId\": \"{{CATEGORY_ID}}\",\"quantityPerUnit\": \"{{$guid}}\",\"unitPrice\": \"99.99\",\"unitsInStock\": \"99\",\"reorderLevel\": \"99\",\"discontinued\": \"true\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/product/{{PRODUCT_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"product",
+				"{{PRODUCT_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "RegionController  PUT/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "PUT",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"regionName\": \"{{$guid}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/region/{{REGION_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"region",
+				"{{REGION_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "ShipperController  PUT/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "PUT",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"shipperName\": \"{{$guid}}\",\"phone\": \"{{$guid}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/shipper/{{SHIPPER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"shipper",
+				"{{SHIPPER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "SupplierController  PUT/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "PUT",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"supplierName\": \"{{$guid}}\",\"contactName\": \"{{$guid}}\",\"contactTitle\": \"{{$guid}}\",\"address\": \"{{$guid}}\",\"city\": \"{{$guid}}\",\"region\": \"{{$guid}}\",\"postalCode\": \"{{$guid}}\",\"country\": \"{{$guid}}\",\"phone\": \"{{$guid}}\",\"fax\": \"{{$guid}}\",\"websiteUrl\": \"{{$guid}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/supplier/{{SUPPLIER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"supplier",
+				"{{SUPPLIER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "TerritoryController  PUT/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "PUT",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			},
+			{
+				"key": "Content-Type",
+				"value": "application/json",
+				"type": "text"
+			}
+		],
+		"body": {
+			"mode": "raw",
+			"raw": "{\"territoryName\": \"{{$guid}}\",\"description\": \"{{$guid}}\",\"regionId\": \"{{REGION_ID}}\"}"
+		},
+		"url": {
+			"raw": "{{URL}}/api/territory/{{TERRITORY_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"territory",
+				"{{TERRITORY_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "CategoryController GET/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/category/{{CATEGORY_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"category",
+				"{{CATEGORY_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "CustomerController GET/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/customer/{{CUSTOMER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"customer",
+				"{{CUSTOMER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "DemographicController GET/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/demographic/{{DEMOGRAPHIC_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"demographic",
+				"{{DEMOGRAPHIC_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "EmployeeController GET/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/employee/{{EMPLOYEE_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"employee",
+				"{{EMPLOYEE_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "OrderController GET/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/order/{{ORDER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"order",
+				"{{ORDER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "ProductController GET/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/product/{{PRODUCT_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"product",
+				"{{PRODUCT_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "RegionController GET/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/region/{{REGION_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"region",
+				"{{REGION_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "ShipperController GET/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/shipper/{{SHIPPER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"shipper",
+				"{{SHIPPER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "SupplierController GET/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/supplier/{{SUPPLIER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"supplier",
+				"{{SUPPLIER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "TerritoryController GET/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "GET",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/territory/{{TERRITORY_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"territory",
+				"{{TERRITORY_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "CategoryController DELETE/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "DELETE",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/category/{{CATEGORY_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"category",
+				"{{CATEGORY_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "CustomerController DELETE/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "DELETE",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/customer/{{CUSTOMER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"customer",
+				"{{CUSTOMER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "DemographicController DELETE/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "DELETE",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/demographic/{{DEMOGRAPHIC_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"demographic",
+				"{{DEMOGRAPHIC_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "EmployeeController DELETE/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "DELETE",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/employee/{{EMPLOYEE_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"employee",
+				"{{EMPLOYEE_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "OrderController DELETE/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "DELETE",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/order/{{ORDER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"order",
+				"{{ORDER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "ProductController DELETE/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "DELETE",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/product/{{PRODUCT_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"product",
+				"{{PRODUCT_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "RegionController DELETE/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "DELETE",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/region/{{REGION_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"region",
+				"{{REGION_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "ShipperController DELETE/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "DELETE",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/shipper/{{SHIPPER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"shipper",
+				"{{SHIPPER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "SupplierController DELETE/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "DELETE",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/supplier/{{SUPPLIER_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"supplier",
+				"{{SUPPLIER_ID}}"
+			]
+		}
+	},
+	"response": []
+},
+{
+	"name": "TerritoryController DELETE/id",
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"id": "__GUID__",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"   pm.response.to.have.status(200);\r",
+					"});"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"request": {
+		"method": "DELETE",
+		"header": [
+			{
+				"key": "Authorization",
+				"value": "Bearer {{TOKEN}}",
+				"type": "text"
+			}
+		],
+		"url": {
+			"raw": "{{URL}}/api/territory/{{TERRITORY_ID}}",
+			"host": [
+				"{{URL}}"
+			],
+			"path": [
+				"api",
+				"territory",
+				"{{TERRITORY_ID}}"
+			]
+		}
+	},
+	"response": []
+}
+	]
+}
