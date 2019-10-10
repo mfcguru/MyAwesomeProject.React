@@ -11,8 +11,6 @@
 
 ![Alt Text](https://media.licdn.com/dms/image/C5112AQFYIagYM3v9yQ/article-inline_image-shrink_1000_1488/0?e=1576108800&v=beta&t=2u2LtEzGqkZioWSnWsTNwev6Tk2Qbq7jHxB2oTCMexc)
 
-### With the web API already running we are now ready to generate the React front end code. We basically do the same. We navigate to the React Jabit! folder and execute code generation from there. But before doing so make sure that you also replaced the default Northwind schema with the schema that we used when we generated the .NET Core API.
-
 
 
 
