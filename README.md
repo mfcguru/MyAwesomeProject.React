@@ -1,3 +1,7 @@
+This code was auto-generated using Jabit! code generator as a sample demonstration in a blog I wrote.
+
+You can find the blog here https://www.linkedin.com/pulse/net-core-react-full-stack-code-generator-ronald-madrid/.
+
 # MyAwesomeProject
 
 ![Alt Text](https://media.licdn.com/dms/image/C5112AQFc22WDnkRroQ/article-inline_image-shrink_1000_1488/0?e=1576108800&v=beta&t=3-k-P4l2R4Vd_eTtik8Jhby_dDFP54b1Jc964YDjVHc)
